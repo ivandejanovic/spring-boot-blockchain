@@ -25,8 +25,8 @@ public class MainServiceImpl implements MainService {
 	@Value("${name}")
 	private String name;
 
-	@Value("${port}")
-	private String port;
+	@Value("${nextPort}")
+	private String nextPort;
 
 	@Autowired
 	private ApplicationContext context;
@@ -42,7 +42,7 @@ public class MainServiceImpl implements MainService {
 
 	@Override
 	public String initiate() {
-		if (port == null)
+		if (nextPort == null)
 			return "Next apps port not provided to app name: " + name;
 		return callNext();
 	}
@@ -61,7 +61,7 @@ public class MainServiceImpl implements MainService {
 	private String callNext() {
 		String message = "Error happened on call next in app name: " + name;
 		try {
-			String url = "http://localhost:" + port + "/block";
+			String url = "http://localhost:" + nextPort + "/block";
 
 			URL obj = new URL(url);
 
