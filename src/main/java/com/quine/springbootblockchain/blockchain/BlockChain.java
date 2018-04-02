@@ -19,7 +19,7 @@ import com.quine.springbootblockchain.blockchain.hash.BlockHash;
  */
 public class BlockChain {
 
-    public static final int DIFFICULTY = 16;
+    public static final int DIFFICULTY = 1;
 
     private Map<BlockHash, BlockWrapper> blocks = new HashMap<>();
 
