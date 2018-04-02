@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.quine.springbootblockchain.service;
 
@@ -9,18 +9,17 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Ivan Dejanovic
- *
  */
 
 @Component
 @Scope("prototype")
 public class BlockchainServiceImpl implements Runnable {
-	@Value("${name}")
-	private String name;
+    @Value("${name}")
+    private String name;
 
-	@Override
-	public void run() {
-		System.out.println("Block operation started in app name: " + name);
-	}
+    @Override
+    public void run() {
+        System.out.println("Block operation started in app name: " + name);
+    }
 
 }
