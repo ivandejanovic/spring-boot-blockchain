@@ -3,6 +3,7 @@
  */
 package com.quine.springbootblockchain.service;
 
+import com.quine.springbootblockchain.blockchain.block.Miner;
 import com.quine.springbootblockchain.data.DemoData;
 
 import com.quine.springbootblockchain.blockchain.BlockChain;
@@ -44,7 +45,8 @@ public class BlockchainServiceImpl implements Runnable {
 
         Block prevBlock = blockChain.getTopBlock();
         DemoData demoData = new DemoData();
-        Block block = new Block(prevBlock, demoData);
+        Block block = Miner.createNewBlock(prevBlock, demoData);
+        blockChain.add(block);
     }
 
 }
