@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Ivan Dejanovic
  */
@@ -17,9 +22,16 @@ public class BlockchainServiceImpl implements Runnable {
     @Value("${name}")
     private String name;
 
+    private static final Logger logger = LoggerFactory.getLogger(BlockchainServiceImpl.class);
+
+    @PostConstruct
+    public void init() {
+        logger.info("Block service initiated in app name: " + name);
+    }
+
     @Override
     public void run() {
-        System.out.println("Block operation started in app name: " + name);
+        logger.info("Block operation started in app name: " + name);
     }
 
 }
