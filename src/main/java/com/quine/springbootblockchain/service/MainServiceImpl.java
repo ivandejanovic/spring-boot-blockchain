@@ -1,19 +1,14 @@
-/**
- *
- */
 package com.quine.springbootblockchain.service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClientException;
+import org.springframework.http.ResponseEntity;
 
 /**
  * @author Ivan Dejanovic
@@ -21,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MainServiceImpl implements MainService {
+
+    private static final Logger logger = LoggerFactory.getLogger(MainServiceImpl.class);
+
     @Value("${name}")
     private String name;
 
@@ -60,32 +58,14 @@ public class MainServiceImpl implements MainService {
     private String callNext() {
         String message = "Error happened on call next in app name: " + name;
         try {
+            RestTemplate restTemplate = new RestTemplate();
             String url = "http://localhost:" + nextPort + "/block";
-
-            URL obj = new URL(url);
-
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + url);
-            System.out.println("Response Code : " + responseCode);
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
             message = response.toString();
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        } catch (RestClientException e) {
             e.printStackTrace();
         }
+
 
         return message;
     }
