@@ -15,8 +15,24 @@ public class DemoData implements Data {
         data = UUID.randomUUID().toString();
     }
 
+    public DemoData(String data) {
+        this.data = data;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
     @Override
     public byte[] getRawData() {
         return data.getBytes();
+    }
+
+    public String toString() {
+        return data;
     }
 }
