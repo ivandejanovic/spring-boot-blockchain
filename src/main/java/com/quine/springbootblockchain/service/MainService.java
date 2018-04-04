@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.quine.springbootblockchain.service;
 
 /**
@@ -28,4 +25,13 @@ public interface MainService {
      * @return status
      */
     public String block();
+
+    /**
+     * Method that syncs the ne block to blockchain.
+     *
+     * @param data
+     *
+     * @return status
+     */
+    public String sync(String data);
 }

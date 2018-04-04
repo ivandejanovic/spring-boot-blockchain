@@ -10,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.RestClientException;
 import org.springframework.http.ResponseEntity;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author Ivan Dejanovic
  */
@@ -27,6 +29,13 @@ public class MainServiceImpl implements MainService {
 
     @Autowired
     private ApplicationContext context;
+
+    private BlockchainServiceImpl blockchain;
+
+     @PostConstruct
+     public void init() {
+            blockchain = (BlockchainServiceImpl) context.getBean("blockchainServiceImpl");
+     }
 
     @Override
     public String greetings() {
@@ -47,13 +56,19 @@ public class MainServiceImpl implements MainService {
     @Override
     public String block() {
         try {
-            Runnable blockchain = (Runnable) context.getBean("blockchainServiceImpl");
             blockchain.run();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "Block operation started in app name: " + name;
     }
+
+     @Override
+     public String sync(String data) {
+        logger.info("Data: " + data + " received for sync in app name: " + name);
+
+        return blockchain.sync(data);
+     }
 
     private String callNext() {
         String message = "Error happened on call next in app name: " + name;
@@ -65,7 +80,6 @@ public class MainServiceImpl implements MainService {
         } catch (RestClientException e) {
             e.printStackTrace();
         }
-
 
         return message;
     }

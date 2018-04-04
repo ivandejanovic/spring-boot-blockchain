@@ -48,4 +48,14 @@ public class BlockchainServiceImpl implements Runnable {
         logger.info("Data: " + demoData.toString() + " added to BlockChain in app name: " + name);
     }
 
+    public String sync(String data) {
+        Block prevBlock = blockChain.getTopBlock();
+        DemoData demoData = new DemoData(data);
+        Block block = Miner.createNewBlock(prevBlock, demoData);
+        blockChain.add(block);
+
+        logger.info("Data: " + demoData.toString() + " added to BlockChain in app name: " + name);
+
+        return "OK";
+    }
 }
